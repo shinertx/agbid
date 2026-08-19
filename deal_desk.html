@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:,">
+  <title>AgBid Deal Desk</title>
+  <style>
+    :root {
+      --green: #16a34a;
+      --green-dark: #14532d;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --bg: #f8fafc;
+      --white: #fff;
+      --amber-bg: #fffbeb;
+      --amber: #b45309;
+      --red-bg: #fef2f2;
+      --red: #991b1b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 16px;
+    }
+    main {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+    h1 {
+      margin: 0 0 6px;
+      font-size: 30px;
+      color: var(--green-dark);
+    }
+    h2 {
+      margin: 0 0 14px;
+      font-size: 18px;
+    }
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    a {
+      color: var(--green-dark);
+      font-weight: 750;
+      text-decoration: none;
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .btn, button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      border-radius: 10px;
+      min-height: 44px;
+      padding: 11px 14px;
+      background: var(--green);
+      color: white;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn.secondary {
+      background: #e2e8f0;
+      color: var(--ink);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    }
+    .metric {
+      font-size: 28px;
+      font-weight: 850;
+      margin-bottom: 4px;
+    }
+    .label {
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .list {
+      display: grid;
+      gap: 12px;
+    }
+    .deal {
+      border-top: 1px solid #f1f5f9;
+      padding-top: 14px;
+    }
+    .deal:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+    .deal-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 5px 9px;
+      font-size: 12px;
+      font-weight: 800;
+      background: #f0fdf4;
+      color: #15803d;
+    }
+    .pill.warn {
+      background: var(--amber-bg);
+      color: var(--amber);
+    }
+    .pill.bad {
+      background: var(--red-bg);
+      color: var(--red);
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 14px;
+      border-top: 1px solid #f8fafc;
+      padding-top: 8px;
+      margin-top: 8px;
+    }
+    .row span { color: var(--muted); }
+    .row strong {
+      text-align: right;
+      overflow-wrap: anywhere;
+      max-width: 68%;
+      line-height: 1.35;
+    }
+    .missing {
+      margin-top: 10px;
+      padding: 11px 12px;
+      border-radius: 8px;
+      background: var(--amber-bg);
+      color: var(--amber);
+      font-size: 13px;
+      font-weight: 750;
+      line-height: 1.35;
+    }
+    .missing.clear {
+      background: #f0fdf4;
+      color: #15803d;
+    }
+    @media (max-width: 760px) {
+      main { padding: 16px; }
+      header { display: block; }
+      .actions { justify-content: flex-start; margin-top: 14px; }
+      .grid { grid-template-columns: 1fr; }
+      .row { display: block; }
+      .row strong {
+        display: block;
+        max-width: none;
+        margin-top: 4px;
+        text-align: left;
+      }
+      .deal-top { display: grid; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div>
+      <h1>AgBid Deal Desk</h1>
+      <p>Manual clearing checklist for awarded Texas pilot transactions.</p>
+    </div>
+    <div class="actions">
+      <a class="btn secondary" href="/operator.html">Pilot board</a>
+      <a class="btn secondary" href="/pilot_leads.html">Pilot leads</a>
+    </div>
+  </header>
+
+  <div class="grid">
+    <div class="card">
+      <div class="metric" id="review-count">0</div>
+      <div class="label">Deal reviews</div>
+    </div>
+    <div class="card">
+      <div class="metric" id="blocked-count">0</div>
+      <div class="label">Blocked</div>
+    </div>
+    <div class="card">
+      <div class="metric" id="ready-count">0</div>
+      <div class="label">Ready for manual clearing</div>
+    </div>
+  </div>
+
+  <section class="card">
+    <h2>Reviews</h2>
+    <div id="reviews" class="list"></div>
+  </section>
+</main>
+
+<script>
+  const API_BASE = `${location.protocol}//${location.host}`;
+
+  function money(value) {
+    return value ? `$${Number(value).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : 'missing';
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? '')
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
+  }
+
+  function row(label, value) {
+    return `<div class="row"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value || 'missing')}</strong></div>`;
+  }
+
+  function statusText(status) {
+    return String(status || '').replaceAll('_', ' ');
+  }
+
+  function pill(status) {
+    const cls = status === 'ready_for_manual_clearing' ? '' : 'warn';
+    return `<span class="pill ${cls}">${escapeHtml(statusText(status))}</span>`;
+  }
+
+  async function loadDeals() {
+    const res = await fetch(`${API_BASE}/api/operator/deal-reviews`);
+    const data = await res.json();
+    const summary = data.summary || {};
+    document.getElementById('review-count').textContent = summary.total || 0;
+    document.getElementById('blocked-count').textContent = summary.blocked || 0;
+    document.getElementById('ready-count').textContent = summary.ready_for_manual_clearing || 0;
+    document.getElementById('reviews').innerHTML = data.reviews.length ? data.reviews.map((review) => `
+      <div class="deal">
+        <div class="deal-top">
+          <strong>${escapeHtml(review.supplier_name || 'Selected supplier')}</strong>
+          ${pill(review.status)}
+        </div>
+        ${row('Product', `${review.product_name || 'missing'} (${review.epa_registration || 'missing'})`)}
+        ${row('Label gate', review.label_gate_status)}
+        ${row('Grower total', money(review.total_due_from_grower))}
+        ${row('Supplier payout pending proof', money(review.supplier_payout_pending_delivery_proof))}
+        ${row('Settlement', review.settlement_id)}
+        <div class="missing ${(review.missing_gates || []).length ? '' : 'clear'}">Missing: ${escapeHtml((review.missing_gates || []).join(', ') || 'none')}</div>
+      </div>
+    `).join('') : '<p>No awarded deals yet.</p>';
+  }
+
+  loadDeals().catch((error) => {
+    document.body.innerHTML = `<main><h1>Could not load deal desk</h1><p>${escapeHtml(error.message)}</p></main>`;
+  });
+</script>
+</body>
+</html>

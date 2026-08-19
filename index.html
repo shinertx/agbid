@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgBid — Get the Best Price on Crop Inputs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --green-900: #14532d;
+            --green-700: #15803d;
+            --green-600: #16a34a;
+            --green-500: #22c55e;
+            --green-100: #dcfce7;
+            --green-50: #f0fdf4;
+            --amber-600: #d97706;
+            --amber-100: #fef3c7;
+            --amber-50: #fffbeb;
+            --slate-900: #0f172a;
+            --slate-700: #334155;
+            --slate-500: #64748b;
+            --slate-400: #94a3b8;
+            --slate-200: #e2e8f0;
+            --slate-100: #f1f5f9;
+            --slate-50: #f8fafc;
+            --white: #ffffff;
+            --red-500: #ef4444;
+            --red-50: #fef2f2;
+            --blue-500: #3b82f6;
+            --radius: 16px;
+            --radius-sm: 12px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.10);
+            --shadow-glow: 0 0 0 4px rgba(22,163,74,0.15);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--slate-50);
+            color: var(--slate-900);
+            min-height: 100vh;
+            min-height: 100dvh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ─── App Shell ─── */
+        .app {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            background: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ─── Top Bar ─── */
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--slate-100);
+            background: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .topbar-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .topbar-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--green-600);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .topbar-icon svg { color: white; }
+
+        .topbar-name {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--green-900);
+            letter-spacing: -0.5px;
+        }
+
+        .topbar-user {
+            width: 36px;
+            height: 36px;
+            background: var(--green-100);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--green-700);
+        }
+
+        /* ─── Steps ─── */
+        .step {
+            display: none;
+            flex-direction: column;
+            flex: 1;
+            padding: 24px 20px;
+            animation: fadeIn 0.35s ease;
+        }
+
+        .step.active { display: flex; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ─── Progress Bar ─── */
+        .progress-bar {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 0 20px 0;
+            margin-top: 12px;
+        }
+
+        .progress-dot {
+            height: 4px;
+            flex: 1;
+            border-radius: 4px;
+            background: var(--slate-200);
+            transition: background 0.3s ease;
+        }
+
+        .progress-dot.filled { background: var(--green-600); }
+        .progress-dot.current { background: var(--green-500); }
+
+        /* ─── Typography ─── */
+        .step-greeting {
+            font-size: 15px;
+            color: var(--slate-500);
+            margin-bottom: 4px;
+        }
+
+        .step-headline {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--slate-900);
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+            margin-bottom: 24px;
+        }
+
+        .step-headline em {
+            font-style: normal;
+            color: var(--green-600);
+        }
+
+        /* ─── Search / Product Picker ─── */
+        .search-wrap {
+            position: relative;
+            margin-bottom: 16px;
+        }
+
+        .search-wrap svg {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--slate-400);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 16px 16px 16px 48px;
+            font-size: 16px;
+            font-family: inherit;
+            border: 2px solid var(--slate-200);
+            border-radius: var(--radius);
+            background: var(--slate-50);
+            color: var(--slate-900);
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--green-600);
+            background: var(--white);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .search-input::placeholder { color: var(--slate-400); }
+
+        .product-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .product-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            background: var(--white);
+            border: 2px solid var(--slate-200);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .product-item:active { transform: scale(0.98); }
+
+        .product-item:hover, .product-item.selected {
+            border-color: var(--green-600);
+            background: var(--green-50);
+        }
+
+        .product-item:focus-visible,
+        .bid-card:focus-visible {
+            outline: 3px solid rgba(22, 163, 74, 0.35);
+            outline-offset: 2px;
+        }
+
+        .product-item.selected {
+            box-shadow: var(--shadow-glow);
+        }
+
+        .product-emoji {
+            width: 44px;
+            height: 44px;
+            background: var(--green-50);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .product-item.selected .product-emoji { background: var(--green-100); }
+
+        .product-info { flex: 1; }
+
+        .product-name {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--slate-900);
+        }
+
+        .product-desc {
+            font-size: 13px;
+            color: var(--slate-500);
+            margin-top: 2px;
+        }
+
+        .product-check {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid var(--slate-300);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+
+        .product-item.selected .product-check {
+            background: var(--green-600);
+            border-color: var(--green-600);
+        }
+
+        /* ─── Inputs ─── */
+        .field-group {
+            margin-bottom: 20px;
+        }
+
+        .field-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--slate-700);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .field-input {
+            width: 100%;
+            padding: 16px;
+            font-size: 18px;
+            font-family: inherit;
+            font-weight: 600;
+            border: 2px solid var(--slate-200);
+            border-radius: var(--radius);
+            background: var(--slate-50);
+            color: var(--slate-900);
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .field-input:focus {
+            border-color: var(--green-600);
+            background: var(--white);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .field-hint {
+            font-size: 13px;
+            color: var(--slate-400);
+            margin-top: 6px;
+        }
+
+        .quick-picks {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .quick-chip {
+            padding: 8px 16px;
+            border-radius: 100px;
+            border: 1.5px solid var(--slate-200);
+            background: var(--white);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--slate-700);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .quick-chip:hover, .quick-chip.selected {
+            border-color: var(--green-600);
+            background: var(--green-50);
+            color: var(--green-700);
+        }
+
+        /* ─── Delivery Date ─── */
+        .date-input {
+            width: 100%;
+            padding: 16px;
+            font-size: 16px;
+            font-family: inherit;
+            font-weight: 500;
+            border: 2px solid var(--slate-200);
+            border-radius: var(--radius);
+            background: var(--slate-50);
+            color: var(--slate-900);
+            outline: none;
+            transition: all 0.2s ease;
+            -webkit-appearance: none;
+        }
+
+        .date-input:focus {
+            border-color: var(--green-600);
+            background: var(--white);
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* ─── Primary Button ─── */
+        .btn-main {
+            width: 100%;
+            padding: 18px;
+            font-size: 17px;
+            font-family: inherit;
+            font-weight: 700;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            -webkit-tap-highlight-color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        .btn-main.primary {
+            background: var(--green-600);
+            color: white;
+            box-shadow: 0 4px 14px rgba(22,163,74,0.3);
+        }
+
+        .btn-main.primary:hover {
+            background: var(--green-700);
+            box-shadow: 0 6px 20px rgba(22,163,74,0.35);
+            transform: translateY(-1px);
+        }
+
+        .btn-main.primary:active { transform: scale(0.98); }
+
+        .btn-main:disabled {
+            background: var(--slate-200);
+            color: var(--slate-400);
+            box-shadow: none;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: none;
+            border: none;
+            color: var(--slate-500);
+            font-size: 14px;
+            font-weight: 500;
+            font-family: inherit;
+            cursor: pointer;
+            padding: 12px;
+            margin-top: 8px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .btn-secondary:hover { color: var(--slate-700); }
+
+        /* ─── Waiting / Loading State ─── */
+        .waiting-state {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .pulse-ring {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--green-50);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 28px;
+        }
+
+        .pulse-ring::before {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            border: 2px solid var(--green-500);
+            animation: ringPulse 2s ease-in-out infinite;
+        }
+
+        .pulse-ring::after {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            border-radius: 50%;
+            border: 2px solid var(--green-500);
+            animation: ringPulse 2s ease-in-out infinite 0.5s;
+        }
+
+        @keyframes ringPulse {
+            0% { opacity: 0.6; transform: scale(0.95); }
+            50% { opacity: 0; transform: scale(1.15); }
+            100% { opacity: 0; transform: scale(1.15); }
+        }
+
+        .pulse-ring svg { color: var(--green-600); }
+
+        .waiting-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--slate-900);
+            margin-bottom: 8px;
+        }
+
+        .waiting-sub {
+            font-size: 14px;
+            color: var(--slate-500);
+            max-width: 280px;
+            line-height: 1.5;
+        }
+
+        .bid-counter {
+            margin-top: 28px;
+            padding: 10px 20px;
+            background: var(--green-50);
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--green-700);
+        }
+
+        /* ─── Bid Results ─── */
+        .results-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .results-count {
+            font-size: 14px;
+            color: var(--slate-500);
+        }
+
+        .sort-row {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 16px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+
+        .sort-btn {
+            padding: 7px 14px;
+            border-radius: 100px;
+            border: 1.5px solid var(--slate-200);
+            background: var(--white);
+            font-size: 13px;
+            font-weight: 500;
+            font-family: inherit;
+            color: var(--slate-500);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .sort-btn.active {
+            border-color: var(--green-600);
+            background: var(--green-50);
+            color: var(--green-700);
+        }
+
+        .bid-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 100px;
+        }
+
+        .bid-card {
+            background: var(--white);
+            border: 2px solid var(--slate-200);
+            border-radius: var(--radius);
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+        }
+
+        .bid-card:active { transform: scale(0.98); }
+
+        .bid-card:hover {
+            border-color: var(--green-500);
+        }
+
+        .bid-card.best {
+            border-color: var(--green-600);
+            background: var(--green-50);
+        }
+
+        .bid-card.best::before {
+            content: '★ Best Price';
+            position: absolute;
+            top: -1px;
+            right: 16px;
+            background: var(--green-600);
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 0 0 8px 8px;
+            letter-spacing: 0.3px;
+        }
+
+        .bid-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .bid-supplier {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--slate-900);
+        }
+
+        .bid-product {
+            font-size: 13px;
+            color: var(--slate-500);
+            margin-top: 2px;
+        }
+
+        .bid-price-block { text-align: right; }
+
+        .bid-price {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--green-700);
+            letter-spacing: -1px;
+            line-height: 1;
+        }
+
+        .bid-price-unit {
+            font-size: 12px;
+            color: var(--slate-500);
+            font-weight: 500;
+        }
+
+        .bid-meta {
+            display: flex;
+            gap: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--slate-100);
+        }
+
+        .bid-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--slate-600);
+        }
+
+        .bid-meta-item svg { color: var(--slate-400); flex-shrink: 0; }
+
+        .bid-meta-item strong {
+            font-weight: 600;
+            color: var(--slate-800);
+        }
+
+        .adjuvant-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 10px;
+            padding: 6px 12px;
+            background: var(--amber-50);
+            border: 1px solid var(--amber-100);
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--amber-600);
+        }
+
+        /* ─── Confirm Screen ─── */
+        .confirm-card {
+            background: var(--green-50);
+            border: 2px solid var(--green-500);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .confirm-check {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--green-600);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            animation: popIn 0.4s ease;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            60% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        .confirm-title {
+            text-align: center;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--green-900);
+            margin-bottom: 4px;
+        }
+
+        .confirm-sub {
+            text-align: center;
+            font-size: 14px;
+            color: var(--slate-500);
+            margin-bottom: 20px;
+        }
+
+        .summary-rows {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: var(--slate-700);
+        }
+
+        .summary-row strong { font-weight: 600; }
+
+        .summary-row.total {
+            border-top: 2px solid var(--green-200);
+            padding-top: 12px;
+            margin-top: 4px;
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--green-900);
+        }
+
+        .financing-select {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 15px;
+            font-family: inherit;
+            font-weight: 500;
+            border: 2px solid var(--slate-200);
+            border-radius: var(--radius-sm);
+            background: var(--white);
+            color: var(--slate-900);
+            outline: none;
+            margin-top: 16px;
+            transition: all 0.2s ease;
+            -webkit-appearance: none;
+        }
+
+        .financing-select:focus {
+            border-color: var(--green-600);
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* ─── Success ─── */
+        .success-screen {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--green-100);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            animation: popIn 0.5s ease;
+        }
+
+        .success-title {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .success-sub {
+            font-size: 15px;
+            color: var(--slate-500);
+            max-width: 300px;
+            line-height: 1.5;
+            margin-bottom: 32px;
+        }
+
+        /* ─── Summary card at top of step 2 ─── */
+        .request-summary {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: var(--green-50);
+            border: 1px solid var(--green-100);
+            border-radius: var(--radius-sm);
+            margin-bottom: 20px;
+        }
+
+        .request-summary-icon {
+            font-size: 24px;
+        }
+
+        .request-summary-text {
+            font-size: 14px;
+            color: var(--green-900);
+            font-weight: 500;
+        }
+
+        /* ─── Back link ─── */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--slate-500);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-family: inherit;
+            margin-bottom: 16px;
+            -webkit-tap-highlight-color: transparent;
+            padding: 4px 0;
+        }
+
+        .back-link:hover { color: var(--slate-700); }
+
+        /* ─── Touch targets (44px minimum) ─── */
+        .quick-chip, .sort-btn {
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-link { min-height: 44px; }
+
+        /* ─── Lock-in / reserve flags ─── */
+        .reserve-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 10px;
+            padding: 6px 12px;
+            background: var(--green-100);
+            border: 1px solid var(--green-500);
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--green-700);
+        }
+
+        .must-pick-banner {
+            padding: 12px 16px;
+            margin-bottom: 14px;
+            background: var(--amber-50);
+            border: 1.5px solid var(--amber-600);
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--amber-600);
+            line-height: 1.4;
+        }
+
+        .error-state {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        /* ─── Desktop tweaks ─── */
+        @media (min-width: 520px) {
+            body { background: var(--slate-100); }
+            .app {
+                margin-top: 20px;
+                margin-bottom: 20px;
+                border-radius: 24px;
+                box-shadow: var(--shadow-lg);
+                min-height: calc(100vh - 40px);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app">
+    <!-- Top Bar -->
+    <div class="topbar">
+        <div class="topbar-logo">
+            <div class="topbar-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <span class="topbar-name">AgBid</span>
+        </div>
+        <div class="topbar-user">JD</div>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress-bar" id="progress-bar">
+        <div class="progress-dot current" id="dot-1"></div>
+        <div class="progress-dot" id="dot-2"></div>
+        <div class="progress-dot" id="dot-3"></div>
+        <div class="progress-dot" id="dot-4"></div>
+        <div class="progress-dot" id="dot-5"></div>
+        <div class="progress-dot" id="dot-6"></div>
+    </div>
+
+    <!-- ════════════ STEP 1: What do you need? ════════════ -->
+    <div class="step active" id="step-1">
+        <p class="step-greeting">Good morning, John 👋</p>
+        <h1 class="step-headline">What do you <em>need</em>?</h1>
+
+        <div class="search-wrap">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input class="search-input" type="text" id="product-search" placeholder="Search products... e.g. Roundup" oninput="filterProducts()">
+        </div>
+
+        <div class="product-list" id="product-list"></div>
+
+        <button class="btn-main primary" id="btn-step1" disabled onclick="goToStep(2)">
+            Continue
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+    </div>
+
+    <!-- ════════════ STEP 2: How much & when? ════════════ -->
+    <div class="step" id="step-2">
+        <button class="back-link" onclick="goToStep(1)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Back
+        </button>
+
+        <div class="request-summary" id="selected-summary">
+            <span class="request-summary-icon">🧪</span>
+            <span class="request-summary-text" id="selected-product-label">Glyphosate (Roundup, etc.)</span>
+        </div>
+
+        <h1 class="step-headline">How much, and <em>when</em>?</h1>
+
+        <div class="field-group">
+            <label class="field-label">How many gallons?</label>
+            <input class="field-input" type="number" id="gallons-input" value="500" min="250" step="50" inputmode="numeric">
+            <p class="field-hint">250 gallon minimum for pilot pricing.</p>
+            <div class="quick-picks">
+                <button class="quick-chip" onclick="setGallons(250)">250 gal</button>
+                <button class="quick-chip selected" onclick="setGallons(500)">500 gal</button>
+                <button class="quick-chip" onclick="setGallons(1000)">1,000 gal</button>
+                <button class="quick-chip" onclick="setGallons(2500)">2,500 gal</button>
+            </div>
+        </div>
+
+        <div class="field-group">
+            <label class="field-label">Need it by</label>
+            <input class="date-input" type="date" id="delivery-date">
+            <p class="field-hint">Pick the latest date that works. More lead time = better prices.</p>
+        </div>
+
+        <div class="field-group">
+            <label class="field-label">Delivery ZIP</label>
+            <input class="field-input" type="text" id="delivery-zip" value="79401" inputmode="numeric" maxlength="10">
+            <p class="field-hint">We use this to invite suppliers who can deliver to your area.</p>
+        </div>
+
+        <div class="field-group">
+            <label class="field-label" for="grower-name">Your name</label>
+            <input class="field-input" type="text" id="grower-name" placeholder="e.g. Ben Jones Farms" autocomplete="name">
+        </div>
+
+        <div class="field-group">
+            <label class="field-label" for="grower-phone">Mobile number</label>
+            <input class="field-input" type="tel" id="grower-phone" placeholder="e.g. 806-555-0101" inputmode="tel" autocomplete="tel">
+            <p class="field-hint">We text you when bids come in.</p>
+        </div>
+
+        <div class="field-group">
+            <label class="field-label">Best price you would lock in</label>
+            <input class="field-input" type="number" id="reserve-price" value="32" min="1" step="0.01" inputmode="decimal">
+            <p class="field-hint">Suppliers do not see this. If a delivered bid comes in at or under your lock-in price, you agree to pick a winner.</p>
+        </div>
+
+        <button class="btn-main primary" onclick="getQuotes()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Get Quotes
+        </button>
+    </div>
+
+    <!-- ════════════ STEP 3: Waiting for bids ════════════ -->
+    <div class="step" id="step-3">
+        <div class="waiting-state" id="waiting-state">
+            <div class="pulse-ring">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </div>
+            <h2 class="waiting-title" id="waiting-title">Sending your request...</h2>
+            <p class="waiting-sub" id="waiting-sub">Your request is going out to suppliers in your area. Sit tight.</p>
+            <div class="bid-counter" id="bid-counter"></div>
+        </div>
+        <div class="error-state" id="error-state" style="display:none">
+            <h2 class="waiting-title">Couldn't reach AgBid</h2>
+            <p class="waiting-sub">Check your connection and try again.</p>
+            <button class="btn-main primary" style="max-width: 280px; margin-top: 24px;" onclick="getQuotes()">Try again</button>
+            <button class="btn-secondary" onclick="goToStep(2)">Change my request</button>
+        </div>
+    </div>
+
+    <!-- ════════════ STEP 4: Bid Results ════════════ -->
+    <div class="step" id="step-4">
+        <button class="back-link" onclick="goToStep(2)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            New request
+        </button>
+
+        <div class="results-header">
+            <h1 class="step-headline" style="margin-bottom:0; font-size:22px;">Your <em>quotes</em></h1>
+            <span class="results-count" id="results-count">3 quotes</span>
+        </div>
+
+        <div class="must-pick-banner" id="must-pick-banner" style="display:none">
+            You agreed to pick a winner — one of these beats your price.
+        </div>
+
+        <div class="sort-row">
+            <button class="sort-btn active" onclick="sortBids('price')">💰 Lowest price</button>
+            <button class="sort-btn" onclick="sortBids('delivery')">🚚 Fastest delivery</button>
+            <button class="sort-btn" onclick="sortBids('total')">📦 Best total cost</button>
+        </div>
+
+        <div class="bid-list" id="bid-list"></div>
+    </div>
+
+    <!-- ════════════ STEP 5: Confirm & Pay ════════════ -->
+    <div class="step" id="step-5">
+        <button class="back-link" onclick="goToStep(4)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Back to quotes
+        </button>
+
+        <div class="confirm-card" id="confirm-card">
+            <div class="confirm-check">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h2 class="confirm-title" id="confirm-supplier">Nutrien Ag Solutions</h2>
+            <p class="confirm-sub" id="confirm-product">Roundup PowerMAX 3 · 500 gal</p>
+
+            <div class="summary-rows">
+                <div class="summary-row">
+                    <span>Product</span>
+                    <strong id="confirm-chem-cost">$17,850.00</strong>
+                </div>
+                <div class="summary-row">
+                    <span>Delivery</span>
+                    <strong id="confirm-delivery-cost">FREE</strong>
+                </div>
+                <div class="summary-row" id="confirm-adjuvant-row" style="display:none">
+                    <span>Adjuvant bundle</span>
+                    <strong id="confirm-adjuvant-cost">$750.00</strong>
+                </div>
+                <div class="summary-row">
+                    <span>AgBid service fee (2.5%)</span>
+                    <strong id="confirm-fee">$446.25</strong>
+                </div>
+                <div class="summary-row total">
+                    <span>Total</span>
+                    <strong id="confirm-total">$18,296.25</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="field-group">
+            <label class="field-label">How do you want to pay?</label>
+            <select class="financing-select" id="financing-select">
+                <option value="deere">John Deere Operating Line (pay at harvest)</option>
+                <option value="rabo">Rabobank Ag Line of Credit</option>
+                <option value="wire">Wire Transfer (2% cash discount)</option>
+            </select>
+        </div>
+
+        <button class="btn-main primary" onclick="confirmOrder()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Confirm & Lock In
+        </button>
+    </div>
+
+    <!-- ════════════ STEP 6: Success ════════════ -->
+    <div class="step" id="step-6">
+        <div class="success-screen">
+            <div class="success-icon">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--green-600)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h2 class="success-title">You're all set! 🎉</h2>
+            <p class="success-sub">Your order is locked in. The supplier has been notified and delivery is being scheduled. You'll get a text when it ships.</p>
+            <button class="btn-main primary" style="max-width: 280px;" onclick="resetApp()">
+                Order something else
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ─── Product Data (mapped from CDMS parity engine, but shown in farmer language) ───
+    const products = [
+        { id: 'glyphosate', emoji: '🧪', name: 'Glyphosate', desc: 'Roundup, Touchdown, Durango & generics', baseCost: 34, brands: ['Roundup PowerMAX 3', 'Durango DMA', 'Touchdown HiTech', 'Generic Glyphosate 5.4lb'] },
+        { id: 'glufosinate', emoji: '🌿', name: 'Glufosinate', desc: 'Liberty, Interline & generics', baseCost: 65, brands: ['Liberty 280 SL', 'Interline SL', 'UPL Glufosinate SL'] },
+        { id: '2,4-d', emoji: '🌾', name: '2,4-D', desc: 'Enlist One, Weedar & generics', baseCost: 22, brands: ['Enlist One', 'Weedar 64', 'Generic 2,4-D Amine'] },
+        { id: 'dicamba', emoji: '🛡️', name: 'Dicamba', desc: 'XtendiMax, Engenia & generics', baseCost: 72, brands: ['XtendiMax VaporGrip', 'Engenia', 'Generic Dicamba DGA'] },
+        { id: 'clethodim', emoji: '🌱', name: 'Clethodim', desc: 'Select Max, Volunteer & generics', baseCost: 45, brands: ['Select Max', 'Volunteer', 'Generic Clethodim 2EC'] },
+        { id: 'atrazine', emoji: '🌽', name: 'Atrazine', desc: 'AAtrex, Atrazine 4L & generics', baseCost: 18, brands: ['AAtrex 4L', 'Atrazine 4L Generic'] },
+        { id: 'metolachlor', emoji: '🧴', name: 'S-Metolachlor', desc: 'Dual Magnum, Brawl & generics', baseCost: 38, brands: ['Dual II Magnum', 'Brawl II', 'Medal II'] },
+    ];
+
+    let selectedProduct = null;
+    let currentBids = [];
+    let currentSort = 'price';
+    let liveRequestId = null;
+    let liveGrowerKey = null;
+    let invitedSupplierCount = 0;
+    let bidPollTimer = null;
+    let selectedLiveBidId = null;
+    const API_BASE = `${location.protocol}//${location.host}`;
+
+    function escapeHtml(value) {
+        return String(value ?? '')
+            .replaceAll('&', '&amp;')
+            .replaceAll('<', '&lt;')
+            .replaceAll('>', '&gt;')
+            .replaceAll('"', '&quot;')
+            .replaceAll("'", '&#039;');
+    }
+
+    // ─── Render Products ───
+    function renderProducts(filter = '') {
+        const list = document.getElementById('product-list');
+        const filtered = products.filter(p =>
+            p.name.toLowerCase().includes(filter.toLowerCase()) ||
+            p.desc.toLowerCase().includes(filter.toLowerCase())
+        );
+
+        list.innerHTML = filtered.map(p => `
+            <div class="product-item ${selectedProduct?.id === p.id ? 'selected' : ''}" role="button" tabindex="0" aria-pressed="${selectedProduct?.id === p.id ? 'true' : 'false'}" onclick="selectProduct('${p.id}')" onkeydown="handleProductKey(event, '${p.id}')">
+                <div class="product-emoji">${escapeHtml(p.emoji)}</div>
+                <div class="product-info">
+                    <div class="product-name">${escapeHtml(p.name)}</div>
+                    <div class="product-desc">${escapeHtml(p.desc)}</div>
+                </div>
+                <div class="product-check">
+                    ${selectedProduct?.id === p.id ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function filterProducts() {
+        renderProducts(document.getElementById('product-search').value);
+    }
+
+    function selectProduct(id) {
+        selectedProduct = products.find(p => p.id === id);
+        renderProducts(document.getElementById('product-search').value);
+        document.getElementById('btn-step1').disabled = false;
+    }
+
+    function handleProductKey(event, id) {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            selectProduct(id);
+        }
+    }
+
+    // ─── Init ───
+    renderProducts();
+
+    // Set default delivery date (7 days out)
+    const defaultDate = new Date();
+    defaultDate.setDate(defaultDate.getDate() + 7);
+    document.getElementById('delivery-date').value = defaultDate.toISOString().split('T')[0];
+
+    // ─── Navigation ───
+    function goToStep(n) {
+        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+        document.getElementById(`step-${n}`).classList.add('active');
+
+        // Update progress
+        for (let i = 1; i <= 6; i++) {
+            const dot = document.getElementById(`dot-${i}`);
+            dot.className = 'progress-dot';
+            if (i < n) dot.classList.add('filled');
+            else if (i === n) dot.classList.add('current');
+        }
+
+        // Update step 2 summary
+        if (n === 2 && selectedProduct) {
+            document.getElementById('selected-product-label').textContent = `${selectedProduct.name} — ${selectedProduct.desc}`;
+        }
+
+        // Scroll to top
+        window.scrollTo(0, 0);
+    }
+
+    function setGallons(val) {
+        document.getElementById('gallons-input').value = val;
+        document.querySelectorAll('.quick-chip').forEach(c => c.classList.remove('selected'));
+        event.target.classList.add('selected');
+    }
+
+    // ─── Get Quotes (real auction: create request, then poll for supplier bids) ───
+    async function getQuotes() {
+        const name = document.getElementById('grower-name').value.trim();
+        const phone = document.getElementById('grower-phone').value.trim();
+        if (!name) {
+            alert('Please enter your name so suppliers know who is buying.');
+            document.getElementById('grower-name').focus();
+            return;
+        }
+        if (!phone) {
+            alert('Please enter your mobile number so we can text you when bids come in.');
+            document.getElementById('grower-phone').focus();
+            return;
+        }
+
+        goToStep(3);
+        showWaitingState();
+
+        try {
+            await createLiveAuction(name, phone);
+        } catch (error) {
+            console.error('Could not create the bid request.', error);
+            stopBidPolling();
+            showErrorState();
+        }
+    }
+
+    function showWaitingState() {
+        document.getElementById('waiting-state').style.display = 'flex';
+        document.getElementById('error-state').style.display = 'none';
+    }
+
+    function showErrorState() {
+        document.getElementById('waiting-state').style.display = 'none';
+        document.getElementById('error-state').style.display = 'flex';
+    }
+
+    async function createLiveAuction(name, phone) {
+        const volume = parseInt(document.getElementById('gallons-input').value) || 500;
+        const reserve = parseFloat(document.getElementById('reserve-price').value) || selectedProduct.baseCost;
+        const deliveryZip = document.getElementById('delivery-zip').value || '79401';
+        const needBy = document.getElementById('delivery-date').value;
+
+        const createRes = await fetch(`${API_BASE}/api/grower/requests`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                grower_name: name,
+                phone: phone,
+                farm_county: deliveryZip.startsWith('79') ? 'Lubbock' : 'Texas',
+                delivery_zip: deliveryZip,
+                product_query: selectedProduct.brands[0] || selectedProduct.name,
+                gallons: volume,
+                need_by: needBy,
+                reserve_price_per_gal: reserve,
+                financing_method: 'operating_line'
+            })
+        });
+        if (!createRes.ok) throw new Error(await createRes.text());
+        const created = await createRes.json();
+        liveRequestId = created.request.id;
+        liveGrowerKey = created.grower_key;
+        invitedSupplierCount = created.supplier_invites.length;
+        selectedLiveBidId = null;
+
+        document.getElementById('waiting-title').textContent = 'Your request is out to suppliers';
+        document.getElementById('waiting-sub').textContent =
+            `We invited ${invitedSupplierCount} supplier${invitedSupplierCount === 1 ? '' : 's'} to bid on your request. Bids arrive within 48 hours — this page updates itself, so check back any time.`;
+        document.getElementById('bid-counter').textContent = `0 of ${invitedSupplierCount} quotes in`;
+
+        startBidPolling();
+    }
+
+    function startBidPolling() {
+        stopBidPolling();
+        bidPollTimer = window.setInterval(pollForBids, 15000);
+        pollForBids();
+    }
+
+    function stopBidPolling() {
+        if (bidPollTimer) {
+            window.clearInterval(bidPollTimer);
+            bidPollTimer = null;
+        }
+    }
+
+    async function pollForBids() {
+        if (!liveRequestId || !liveGrowerKey) return;
+        try {
+            await loadLiveBids();
+        } catch (error) {
+            console.warn('Bid check failed; will try again shortly.', error);
+            return;
+        }
+        document.getElementById('bid-counter').textContent = `${currentBids.length} of ${invitedSupplierCount} quotes in`;
+        if (currentBids.length > 0) {
+            stopBidPolling();
+            currentSort = 'price';
+            renderBids();
+            goToStep(4);
+        }
+    }
+
+    async function loadLiveBids() {
+        const res = await fetch(`${API_BASE}/api/grower/requests/${liveRequestId}?key=${encodeURIComponent(liveGrowerKey)}`);
+        if (!res.ok) throw new Error(await res.text());
+        const data = await res.json();
+        currentBids = data.bids.map((bid) => {
+            const deliveryDays = Math.max(1, Math.round((new Date(bid.delivery_date) - new Date()) / 86400000));
+            return {
+                apiBidId: bid.id,
+                supplier: bid.distributor_name,
+                product: bid.product_name,
+                pricePerGal: bid.price_per_gallon,
+                freight: bid.freight_total,
+                deliveryDays,
+                deliveryDate: bid.delivery_date,
+                chemTotal: bid.product_total,
+                total: bid.delivered_total,
+                hasAdjuvant: Boolean(bid.adjuvant_name),
+                adjuvantName: bid.adjuvant_name || '',
+                adjuvantCostPerGal: bid.adjuvant_price_per_gallon || 0,
+                adjuvantTotal: bid.adjuvant_total || 0,
+                mustPick: data.status.must_pick,
+                reserveMet: bid.meets_hidden_reserve
+            };
+        });
+    }
+
+    // ─── Render Bids ───
+    function renderBids() {
+        const list = document.getElementById('bid-list');
+        const sorted = [...currentBids];
+
+        if (currentSort === 'price') sorted.sort((a, b) => a.pricePerGal - b.pricePerGal);
+        else if (currentSort === 'delivery') sorted.sort((a, b) => a.deliveryDays - b.deliveryDays);
+        else if (currentSort === 'total') sorted.sort((a, b) => a.total - b.total);
+
+        const bestIdx = 0; // first one after sorting is "best"
+
+        list.innerHTML = sorted.map((bid, i) => {
+            const adjTag = bid.hasAdjuvant ? `
+                <div class="adjuvant-tag">
+                    🎁 Add ${escapeHtml(bid.adjuvantName)} (+$${bid.adjuvantCostPerGal.toFixed(2)}/gal)
+                </div>` : '';
+
+            const reserveTag = bid.reserveMet ? `
+                <div class="reserve-badge">
+                    ✓ Beats your lock-in
+                </div>` : '';
+
+            const bidIndex = currentBids.indexOf(bid);
+            return `
+            <div class="bid-card ${i === bestIdx ? 'best' : ''}" role="button" tabindex="0" aria-label="Select ${escapeHtml(bid.supplier)} bid for $${bid.pricePerGal.toFixed(2)} per gallon" onclick="selectBid(${bidIndex})" onkeydown="handleBidKey(event, ${bidIndex})">
+                <div class="bid-top">
+                    <div>
+                        <div class="bid-supplier">${escapeHtml(bid.supplier)}</div>
+                        <div class="bid-product">${escapeHtml(bid.product)}</div>
+                    </div>
+                    <div class="bid-price-block">
+                        <div class="bid-price">$${bid.pricePerGal.toFixed(2)}</div>
+                        <div class="bid-price-unit">per gallon</div>
+                    </div>
+                </div>
+                <div class="bid-meta">
+                    <div class="bid-meta-item">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                        <strong>${bid.freight === 0 ? 'FREE delivery' : '$' + bid.freight.toFixed(0) + ' delivery'}</strong>
+                    </div>
+                    <div class="bid-meta-item">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        <strong>${bid.deliveryDays} days</strong>
+                    </div>
+                    <div class="bid-meta-item">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        <strong>$${bid.total.toLocaleString()} total</strong>
+                    </div>
+                </div>
+                ${adjTag}
+                ${reserveTag}
+            </div>`;
+        }).join('');
+
+        document.getElementById('results-count').textContent = `${sorted.length} quotes`;
+        document.getElementById('must-pick-banner').style.display =
+            currentBids.some(b => b.mustPick) ? 'block' : 'none';
+    }
+
+    function sortBids(by) {
+        currentSort = by;
+        document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+        event.target.classList.add('active');
+        renderBids();
+    }
+
+    // ─── Select a bid → Confirm ───
+    function selectBid(index) {
+        const bid = currentBids[index];
+        const volume = parseInt(document.getElementById('gallons-input').value) || 500;
+        selectedLiveBidId = bid.apiBidId || null;
+
+        document.getElementById('confirm-supplier').textContent = bid.supplier;
+        document.getElementById('confirm-product').textContent = `${bid.product} · ${volume.toLocaleString()} gal`;
+        document.getElementById('confirm-chem-cost').textContent = `$${bid.chemTotal.toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
+        document.getElementById('confirm-delivery-cost').textContent = bid.freight === 0 ? 'FREE' : `$${bid.freight.toFixed(2)}`;
+
+        const adjRow = document.getElementById('confirm-adjuvant-row');
+        if (bid.hasAdjuvant) {
+            adjRow.style.display = 'flex';
+            document.getElementById('confirm-adjuvant-cost').textContent = `$${bid.adjuvantTotal.toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
+        } else {
+            adjRow.style.display = 'none';
+        }
+
+        const subtotal = bid.chemTotal + bid.freight + (bid.hasAdjuvant ? bid.adjuvantTotal : 0);
+        const fee = subtotal * 0.025;
+        const total = subtotal + fee;
+
+        document.getElementById('confirm-fee').textContent = `$${fee.toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
+        document.getElementById('confirm-total').textContent = `$${total.toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
+
+        goToStep(5);
+    }
+
+    function handleBidKey(event, index) {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            selectBid(index);
+        }
+    }
+
+    // ─── Confirm Order ───
+    async function confirmOrder() {
+        const confirmButton = document.querySelector('#step-5 .btn-main.primary');
+        if (confirmButton) confirmButton.disabled = true;
+        try {
+            if (liveRequestId && selectedLiveBidId) {
+                const res = await fetch(`${API_BASE}/api/grower/select-bid`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        request_id: liveRequestId,
+                        bid_id: selectedLiveBidId,
+                        grower_key: liveGrowerKey,
+                        payment_method: document.getElementById('financing-select').value
+                    })
+                });
+                if (!res.ok) throw new Error(await res.text());
+            }
+            goToStep(6);
+        } catch (error) {
+            alert(`Could not confirm the order. ${error.message}`);
+        } finally {
+            if (confirmButton) confirmButton.disabled = false;
+        }
+    }
+
+    // ─── Reset ───
+    function resetApp() {
+        stopBidPolling();
+        selectedProduct = null;
+        currentBids = [];
+        liveRequestId = null;
+        liveGrowerKey = null;
+        invitedSupplierCount = 0;
+        selectedLiveBidId = null;
+        document.getElementById('product-search').value = '';
+        document.getElementById('btn-step1').disabled = true;
+        renderProducts();
+        goToStep(1);
+    }
+
+    // ─── Time-of-day greeting ───
+    (function setGreeting() {
+        const hour = new Date().getHours();
+        let greeting = 'Good morning';
+        if (hour >= 12 && hour < 17) greeting = 'Good afternoon';
+        else if (hour >= 17) greeting = 'Good evening';
+        document.querySelector('.step-greeting').textContent = `${greeting}, John 👋`;
+    })();
+</script>
+
+</body>
+</html>

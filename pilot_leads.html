@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:,">
+  <title>AgBid Pilot Leads</title>
+  <style>
+    :root {
+      --green: #16a34a;
+      --green-dark: #14532d;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --bg: #f8fafc;
+      --white: #fff;
+      --amber-bg: #fffbeb;
+      --amber: #b45309;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 16px;
+    }
+    main {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+    h1 {
+      margin: 0 0 6px;
+      font-size: 30px;
+      color: var(--green-dark);
+    }
+    h2 {
+      margin: 0 0 14px;
+      font-size: 18px;
+    }
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    a {
+      color: var(--green-dark);
+      font-weight: 750;
+      text-decoration: none;
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .btn, button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      border-radius: 10px;
+      min-height: 44px;
+      padding: 11px 14px;
+      background: var(--green);
+      color: white;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn.secondary {
+      background: #e2e8f0;
+      color: var(--ink);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    }
+    .metric {
+      font-size: 28px;
+      font-weight: 850;
+      margin-bottom: 4px;
+    }
+    .label {
+      color: var(--muted);
+      font-size: 14px;
+    }
+    form {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    label {
+      display: grid;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #334155;
+    }
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      min-height: 44px;
+      padding: 11px 12px;
+      font: inherit;
+      background: white;
+      color: var(--ink);
+    }
+    textarea { min-height: 78px; resize: vertical; }
+    .wide { grid-column: 1 / -1; }
+    .checks {
+      display: grid;
+      gap: 10px;
+      align-content: start;
+      padding-top: 21px;
+    }
+    .check {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-height: 44px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .check input {
+      width: 18px;
+      height: 18px;
+    }
+    .lead-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .lead {
+      border-top: 1px solid #f1f5f9;
+      padding-top: 12px;
+    }
+    .lead:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+    .lead-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 5px 9px;
+      font-size: 12px;
+      font-weight: 800;
+      background: #f0fdf4;
+      color: #15803d;
+    }
+    .pill.warn {
+      background: var(--amber-bg);
+      color: var(--amber);
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 14px;
+      border-top: 1px solid #f8fafc;
+      padding-top: 8px;
+      margin-top: 8px;
+    }
+    .row span { color: var(--muted); }
+    .row strong {
+      text-align: right;
+      overflow-wrap: anywhere;
+      max-width: 68%;
+      line-height: 1.35;
+    }
+    .status {
+      min-height: 22px;
+      color: var(--green-dark);
+      font-weight: 800;
+    }
+    @media (max-width: 760px) {
+      main { padding: 16px; }
+      header { display: block; }
+      .actions { justify-content: flex-start; margin-top: 14px; }
+      .grid, form { grid-template-columns: 1fr; }
+      .wide { grid-column: auto; }
+      .row { display: block; }
+      .row strong {
+        display: block;
+        max-width: none;
+        margin-top: 4px;
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div>
+      <h1>AgBid Pilot Leads</h1>
+      <p>Track the real growers and suppliers needed to run one Texas manual auction.</p>
+    </div>
+    <div class="actions">
+      <a class="btn secondary" href="/operator.html">Pilot board</a>
+      <a class="btn secondary" href="/api/operator/leads/export">Export CSV</a>
+    </div>
+  </header>
+
+  <div class="grid">
+    <div class="card">
+      <div class="metric" id="grower-count">0</div>
+      <div class="label">Grower leads</div>
+    </div>
+    <div class="card">
+      <div class="metric" id="supplier-count">0</div>
+      <div class="label">Supplier leads</div>
+    </div>
+    <div class="card">
+      <div class="metric" id="real-grower-count">0</div>
+      <div class="label">Real grower asks</div>
+    </div>
+    <div class="card">
+      <div class="metric" id="real-supplier-count">0</div>
+      <div class="label">Supplier bid commitments</div>
+    </div>
+  </div>
+
+  <section class="card">
+    <h2>Add Lead</h2>
+    <form id="lead-form">
+      <label>
+        Type
+        <select id="lead-type">
+          <option value="grower">Grower</option>
+          <option value="supplier">Supplier</option>
+        </select>
+      </label>
+      <label>
+        Status
+        <select id="status">
+          <option value="new">new</option>
+          <option value="contacted">contacted</option>
+          <option value="qualified">qualified</option>
+          <option value="pilot_ready">pilot_ready</option>
+          <option value="not_now">not_now</option>
+        </select>
+      </label>
+      <label>
+        Name
+        <input id="name" required placeholder="Farm, dealer, or rep name">
+      </label>
+      <label>
+        Contact
+        <input id="contact" required placeholder="Phone or email">
+      </label>
+      <label>
+        Texas region
+        <input id="region" required placeholder="High Plains">
+      </label>
+      <label>
+        Source
+        <input id="source" value="manual" placeholder="intro, referral, cold call">
+      </label>
+      <label>
+        Product / product lines
+        <input id="product-interest" placeholder="Roundup PowerMAX 3, glyphosate, adjuvants">
+      </label>
+      <label>
+        Gallons
+        <input id="gallons" type="number" min="0" step="1" placeholder="1000">
+      </label>
+      <label>
+        Delivery ZIP
+        <input id="delivery-zip" placeholder="79401">
+      </label>
+      <label>
+        Lock-in price / gal
+        <input id="target-price" type="number" min="0" step="0.01" placeholder="32.00">
+      </label>
+      <div class="checks">
+        <label class="check">
+          <input id="freight" type="checkbox">
+          Freight-included bids
+        </label>
+        <label class="check">
+          <input id="clearing" type="checkbox">
+          Accepts AgBid clearing
+        </label>
+      </div>
+      <label>
+        Texas dealer status
+        <input id="dealer-status" placeholder="unknown, verified, not applicable">
+      </label>
+      <label class="wide">
+        Next action
+        <input id="next-action" required placeholder="Call for one 250+ gallon request">
+      </label>
+      <label class="wide">
+        Notes
+        <textarea id="notes" placeholder="What they buy today, price pain, freight constraints, objections"></textarea>
+      </label>
+      <div class="wide actions">
+        <button type="submit">Save lead</button>
+        <div class="status" id="save-status"></div>
+      </div>
+    </form>
+  </section>
+
+  <section class="card">
+    <h2>Lead List</h2>
+    <div id="lead-list" class="lead-list"></div>
+  </section>
+</main>
+
+<script>
+  const API_BASE = `${location.protocol}//${location.host}`;
+
+  function money(value) {
+    return value ? `$${Number(value).toFixed(2)}` : 'missing';
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? '')
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
+  }
+
+  function row(label, value) {
+    return `<div class="row"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value || 'missing')}</strong></div>`;
+  }
+
+  function statusText(status) {
+    return String(status || '').replaceAll('_', ' ');
+  }
+
+  function pill(status) {
+    return `<span class="pill ${status === 'new' || status === 'contacted' ? 'warn' : ''}">${escapeHtml(statusText(status))}</span>`;
+  }
+
+  async function loadLeads() {
+    const res = await fetch(`${API_BASE}/api/operator/leads`);
+    const data = await res.json();
+    const summary = data.summary || {};
+    document.getElementById('grower-count').textContent = summary.by_type?.grower || 0;
+    document.getElementById('supplier-count').textContent = summary.by_type?.supplier || 0;
+    document.getElementById('real-grower-count').textContent = summary.real_grower_leads || 0;
+    document.getElementById('real-supplier-count').textContent = summary.real_supplier_leads || 0;
+
+    document.getElementById('lead-list').innerHTML = data.leads.length ? data.leads.map((lead) => `
+      <div class="lead">
+        <div class="lead-top">
+          <strong>${escapeHtml(lead.name)}</strong>
+          ${pill(lead.status)}
+        </div>
+        ${row('Type', lead.lead_type)}
+        ${row('Contact', lead.contact)}
+        ${row('Region', lead.region)}
+        ${row('Product', lead.product_interest)}
+        ${row('Gallons / ZIP', `${lead.gallons || 'missing'} / ${lead.delivery_zip || 'missing'}`)}
+        ${row('Target price', money(lead.target_price_per_gal))}
+        ${row('Supplier terms', `${lead.can_include_freight ? 'freight yes' : 'freight no'} / ${lead.accepts_agbid_clearing ? 'clearing yes' : 'clearing no'}`)}
+        ${row('Next action', lead.next_action)}
+      </div>
+    `).join('') : '<p>No leads yet.</p>';
+  }
+
+  document.getElementById('lead-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const payload = {
+      lead_type: document.getElementById('lead-type').value,
+      name: document.getElementById('name').value,
+      contact: document.getElementById('contact').value,
+      region: document.getElementById('region').value,
+      source: document.getElementById('source').value || 'manual',
+      status: document.getElementById('status').value,
+      product_interest: document.getElementById('product-interest').value || null,
+      gallons: document.getElementById('gallons').value ? Number(document.getElementById('gallons').value) : null,
+      delivery_zip: document.getElementById('delivery-zip').value || null,
+      target_price_per_gal: document.getElementById('target-price').value ? Number(document.getElementById('target-price').value) : null,
+      can_include_freight: document.getElementById('freight').checked,
+      accepts_agbid_clearing: document.getElementById('clearing').checked,
+      texas_dealer_status: document.getElementById('dealer-status').value || null,
+      next_action: document.getElementById('next-action').value,
+      notes: document.getElementById('notes').value || null,
+    };
+    const status = document.getElementById('save-status');
+    status.textContent = 'Saving...';
+    const res = await fetch(`${API_BASE}/api/operator/leads`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      status.textContent = await res.text();
+      return;
+    }
+    event.target.reset();
+    document.getElementById('source').value = 'manual';
+    status.textContent = 'Saved';
+    await loadLeads();
+  });
+
+  loadLeads().catch((error) => {
+    document.body.innerHTML = `<main><h1>Could not load leads</h1><p>${escapeHtml(error.message)}</p></main>`;
+  });
+</script>
+</body>
+</html>

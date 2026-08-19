@@ -1,0 +1,300 @@
+{
+  "2,4-D choline salt": {
+    "active_ingredient": "2,4-D choline salt",
+    "common_uses": [
+      "Broadleaf weed control in Enlist crops"
+    ],
+    "generic_alternatives": [
+      {
+        "active_percentage": 55.7,
+        "brand_name": "Enlist One",
+        "default_adjuvant": "Non-ionic Surfactant (NIS) or Crop Oil Concentrate (COC)",
+        "epa_registration": "62719-695",
+        "epa_verification": {
+          "checked_at": "2026-06-02T18:06:29.926508Z",
+          "name_lookup_epa_registration": "LA170010",
+          "name_lookup_product_name": "ENLIST ONE",
+          "note": "Product-name search suggests state/local registration LA170010; do not use for Texas marketplace without manual compliance review.",
+          "original_epa_registration": "62719-695",
+          "pdf_url": "https://www3.epa.gov/pesticides/chem_search/ppls/062719-00695-20240125.pdf",
+          "ppls_name_search_url": "https://ordspub.epa.gov/ords/pesticides/cswu/ProductSearch/partialprodsearch/v2/riname/Enlist%20One",
+          "ppls_registration_url": "https://ordspub.epa.gov/ords/pesticides/cswu/ppls/62719-695",
+          "product_status": "Active",
+          "registration_lookup_product_name": "GF-3335",
+          "rup": "No",
+          "status": "needs_manual_review"
+        },
+        "manufacturer": "Corteva Agriscience",
+        "original_epa_registration": "62719-695"
+      }
+    ]
+  },
+  "2,4-D dimethylamine salt": {
+    "active_ingredient": "2,4-D dimethylamine salt",
+    "common_uses": [
+      "Generic 2,4-D broadleaf weed control"
+    ],
+    "generic_alternatives": [
+      {
+        "active_percentage": 46.8,
+        "brand_name": "Weedar 64",
+        "default_adjuvant": "Non-ionic Surfactant (NIS)",
+        "epa_registration": "71368-1",
+        "epa_verification": {
+          "checked_at": "2026-06-02T18:06:47.128755Z",
+          "name_lookup_epa_registration": "71368-1-264",
+          "name_lookup_product_name": "WEEDAR 64 BROADLEAF HERBICIDE",
+          "note": "Product-name search suggests 71368-1-264, but its status is 'Inactive'.",
+          "original_epa_registration": "71368-1",
+          "pdf_url": "https://www3.epa.gov/pesticides/chem_search/ppls/071368-00001-20210126.pdf",
+          "ppls_name_search_url": "https://ordspub.epa.gov/ords/pesticides/cswu/ProductSearch/partialprodsearch/v2/riname/Weedar%2064",
+          "ppls_registration_url": "https://ordspub.epa.gov/ords/pesticides/cswu/ppls/71368-1",
+          "product_status": "Active",
+          "registration_lookup_product_name": "WEEDAR 64 BROADLEAF HERBICIDE",
+          "rup": "No",
+          "status": "needs_manual_review"
+        },
+        "manufacturer": "Nufarm",
+        "original_epa_registration": "71368-1"
+      }
+    ]
+  },
+  "Clethodim": {
+    "active_ingredient": "Clethodim",
+    "common_uses": [
+      "Post-emergence grass weed control"
+    ],
+    "generic_alternatives": [
+      {
+        "active_percentage": 12.6,
+        "brand_name": "Select Max",
+        "default_adjuvant": "Non-ionic Surfactant (NIS) or Crop Oil Concentrate (COC)",
+        "epa_registration": "59639-132",
+        "epa_verification": {
+          "checked_at": "2026-06-02T18:07:39.181870Z",
+          "name_lookup_epa_registration": "59639-132",
+          "name_lookup_product_name": "SELECT MAX HERBICIDE WITH INSIDE TECHNOLOGY",
+          "note": "EPA registration exists but product name does not match seed strongly.",
+          "original_epa_registration": "59639-132",
+          "pdf_url": "https://www3.epa.gov/pesticides/chem_search/ppls/059639-00132-20260406.pdf",
+          "ppls_name_search_url": "https://ordspub.epa.gov/ords/pesticides/cswu/ProductSearch/partialprodsearch/v2/riname/Select%20Max",
+          "ppls_registration_url": "https://ordspub.epa.gov/ords/pesticides/cswu/ppls/59639-132",
+          "product_status": "Active",
+          "registration_lookup_product_name": "V-10137 1 EC HERBICIDE",
+          "rup": "No",
+          "status": "needs_manual_review"
+        },
+        "manufacturer": "Valent USA",
+        "original_epa_registration": "59639-132"
+      },
+      {
+        "active_percentage": 26.4,
+        "brand_name": "Volunteer",
+        "default_adjuvant": "Crop Oil Concentrate (COC)",
+        "epa_registration": "42750-72",
+        "epa_verification": {
+          "checked_at": "2026-06-02T18:07:56.443909Z",
+          "name_lookup_epa_registration": "10807-4-54517",
+          "name_lookup_product_name": "VOLUNTEER SPECIALTIES RESIDUAL",
+          "note": "Product-name search suggests 10807-4-54517, but its status is 'Inactive'.",
+          "original_epa_registration": "42750-72",
+          "pdf_url": "https://www3.epa.gov/pesticides/chem_search/ppls/042750-00072-20240428.pdf",
+          "ppls_name_search_url": "https://ordspub.epa.gov/ords/pesticides/cswu/ProductSearch/partialprodsearch/v2/riname/Volunteer",
+          "ppls_registration_url": "https://ordspub.epa.gov/ords/pesticides/cswu/ppls/42750-72",
+          "product_status": "Active",
+          "registration_lookup_product_name": "CLETHODIM 2E",
+          "rup": "No",
+          "status": "needs_manual_review"
+        },
+        "manufacturer": "Albaugh",
+        "original_epa_registration": "42750-72"
+      }
+    ]
+  },
+  "Dicamba BAPMA salt": {
+    "active_ingredient": "Dicamba BAPMA salt",
+    "common_uses": [
+      "Post-emergence broadleaf control in Engenia-tolerant crops"
+    ],
+    "generic_alternatives": [
+      {
+        "active_percentage": 48.2,
+        "brand_name": "Engenia",
+        "default_adjuvant": "Sentri Silicone Surfactant (NIS)",
+        "epa_registration": "7969-345",
+        "epa_verification": {
+          "checked_at": "2026-06-02T18:07:22.057325Z",
+          "name_lookup_epa_registration": "7969-507",
+          "name_lookup_product_name": "Engenia Herbicide",
+          "note": "EPA registration lookup matched seeded product.",
+          "original_epa_registration": "7969-345",
+          "pdf_url": "https://www3.epa.gov/pesticides/chem_search/ppls/007969-00345-20181102.pdf",
+          "ppls_name_search_url": "https://ordspub.epa.gov/ords/pesticides/cswu/ProductSearch/partialprodsearch/v2/riname/Engenia",
+          "ppls_registration_url": "https://ordspub.epa.gov/ords/pesticides/cswu/ppls/7969-345",
+          "product_status": "Inactive",
+          "registration_lookup_product_name": "Engenia Herbicide",
+          "rup": "Yes",
+          "status": "verified"
+        },
+        "manufacturer": "BASF",
+        "original_epa_registration": "7969-345"
+      }
+    ]
+  },
+  "Dicamba diglycolamine salt": {
+    "active_ingredient": "Dicamba diglycolamine salt",
+    "common_uses": [
+      "Post-emergence broadleaf control in dicamba-tolerant soybeans"
+    ],
+    "generic_alternatives": [
+      {
+        "active_percentage": 42.8,
+        "brand_name": "XtendiMax with VaporGrip Technology",
+        "default_adjuvant": "VaporGrip Agent (Volatility Reduction Agent)",
+        "epa_registration": "524-617",
+        "epa_verification": {
+          "checked_at": "2026-06-02T18:07:04.605608Z",
+          "name_lookup_epa_registration": "524-617",
+          "name_lookup_product_name": "XTENDIMAX WITH VAPORGRIP TECHNOLOGY",
+          "note": "EPA registration exists but product name does not match seed strongly.",
+          "original_epa_registration": "524-617",
+          "pdf_url": "https://www3.epa.gov/pesticides/chem_search/ppls/000524-00617-20181105.pdf",
+          "ppls_name_search_url": "https://ordspub.epa.gov/ords/pesticides/cswu/ProductSearch/partialprodsearch/v2/riname/XtendiMax%20with%20VaporGrip%20Technology",
+          "ppls_registration_url": "https://ordspub.epa.gov/ords/pesticides/cswu/ppls/524-617",
+          "product_status": "Inactive",
+          "registration_lookup_product_name": "M1768 HERBICIDE",
+          "rup": "Yes",
+          "status": "needs_manual_review"
+        },
+        "manufacturer": "Bayer CropScience",
+        "original_epa_registration": "524-617"
+      }
+    ]
+  },
+  "Glufosinate-ammonium": {
+    "active_ingredient": "Glufosinate-ammonium",
+    "common_uses": [
+      "Post-emergence weed control in glufosinate-tolerant crops"
+    ],
+    "generic_alternatives": [
+      {
+        "active_percentage": 24.5,
+        "brand_name": "Liberty 280 SL",
+        "default_adjuvant": "Ammonium Sulfate (AMS)",
+        "epa_registration": "7969-448",
+        "epa_verification": {
+          "checked_at": "2026-06-02T18:05:55.115350Z",
+          "name_lookup_epa_registration": "7969-448",
+          "name_lookup_product_name": "LIBERTY 280 SL HERBICIDE",
+          "note": "EPA registration lookup matched seeded product.",
+          "original_epa_registration": "7969-448",
+          "pdf_url": "https://www3.epa.gov/pesticides/chem_search/ppls/007969-00448-20250603.pdf",
+          "ppls_name_search_url": "https://ordspub.epa.gov/ords/pesticides/cswu/ProductSearch/partialprodsearch/v2/riname/Liberty%20280%20SL",
+          "ppls_registration_url": "https://ordspub.epa.gov/ords/pesticides/cswu/ppls/7969-448",
+          "product_status": "Active",
+          "registration_lookup_product_name": "LIBERTY 280 SL HERBICIDE",
+          "rup": "No",
+          "status": "verified"
+        },
+        "manufacturer": "BASF",
+        "original_epa_registration": "7969-448"
+      },
+      {
+        "active_percentage": 24.5,
+        "brand_name": "Interline",
+        "default_adjuvant": "Ammonium Sulfate (AMS)",
+        "epa_registration": "70506-310",
+        "epa_verification": {
+          "checked_at": "2026-06-02T18:06:12.395778Z",
+          "name_lookup_epa_registration": "70506-310",
+          "name_lookup_product_name": "INTERLINE HERBICIDE",
+          "note": "EPA registration exists but product name does not match seed strongly.",
+          "original_epa_registration": "70506-310",
+          "pdf_url": "https://www3.epa.gov/pesticides/chem_search/ppls/070506-00310-20240314.pdf",
+          "ppls_name_search_url": "https://ordspub.epa.gov/ords/pesticides/cswu/ProductSearch/partialprodsearch/v2/riname/Interline",
+          "ppls_registration_url": "https://ordspub.epa.gov/ords/pesticides/cswu/ppls/70506-310",
+          "product_status": "Active",
+          "registration_lookup_product_name": "LIFELINE HERBICIDE",
+          "rup": "No",
+          "status": "needs_manual_review"
+        },
+        "manufacturer": "UPL NA",
+        "original_epa_registration": "70506-310"
+      }
+    ]
+  },
+  "Glyphosate": {
+    "active_ingredient": "Glyphosate",
+    "common_uses": [
+      "Non-selective post-emergence weed control"
+    ],
+    "generic_alternatives": [
+      {
+        "active_percentage": 43.3,
+        "brand_name": "Roundup PowerMAX 3",
+        "default_adjuvant": "Non-ionic Surfactant (NIS) or Ammonium Sulfate (AMS)",
+        "epa_registration": "524-729",
+        "epa_verification": {
+          "checked_at": "2026-06-02T18:05:02.749436Z",
+          "name_lookup_epa_registration": "524-729",
+          "name_lookup_product_name": "ROUNDUP POWERMAX 3 HERBICIDE",
+          "note": "Seeded registration 524-633 appears to map to 'MON 87411 X DAS-59122-7 INSECT-PROTECTED, HERBICIDE-TOLERANT CORN'; product-name search suggests 524-729.",
+          "original_epa_registration": "524-633",
+          "pdf_url": "https://www3.epa.gov/pesticides/chem_search/ppls/000524-00633-20180208.pdf",
+          "ppls_name_search_url": "https://ordspub.epa.gov/ords/pesticides/cswu/ProductSearch/partialprodsearch/v2/riname/Roundup%20PowerMAX%203",
+          "ppls_registration_url": "https://ordspub.epa.gov/ords/pesticides/cswu/ppls/524-729",
+          "product_status": "Active",
+          "registration_lookup_product_name": "MON 87411 X DAS-59122-7 INSECT-PROTECTED, HERBICIDE-TOLERANT CORN",
+          "rup": "No",
+          "status": "registration_mismatch_suggested_fix"
+        },
+        "manufacturer": "Bayer CropScience",
+        "original_epa_registration": "524-633"
+      },
+      {
+        "active_percentage": 50.2,
+        "brand_name": "Durango DMA",
+        "default_adjuvant": "Ammonium Sulfate (AMS)",
+        "epa_registration": "83100-76",
+        "epa_verification": {
+          "checked_at": "2026-06-02T18:05:20.124689Z",
+          "name_lookup_epa_registration": "83100-76",
+          "name_lookup_product_name": "DURANGO DMA",
+          "note": "Seeded registration 62719-556 appears to map to 'GF-1280'; product-name search suggests 83100-76.",
+          "original_epa_registration": "62719-556",
+          "pdf_url": "https://www3.epa.gov/pesticides/chem_search/ppls/083100-00076-20240205.pdf",
+          "ppls_name_search_url": "https://ordspub.epa.gov/ords/pesticides/cswu/ProductSearch/partialprodsearch/v2/riname/Durango%20DMA",
+          "ppls_registration_url": "https://ordspub.epa.gov/ords/pesticides/cswu/ppls/83100-76",
+          "product_status": "Active",
+          "registration_lookup_product_name": "GF-1280",
+          "rup": "No",
+          "status": "registration_mismatch_suggested_fix"
+        },
+        "manufacturer": "Corteva Agriscience",
+        "original_epa_registration": "62719-556"
+      },
+      {
+        "active_percentage": 50.0,
+        "brand_name": "Touchdown HiTech",
+        "default_adjuvant": "Non-ionic Surfactant (NIS)",
+        "epa_registration": "100-1182",
+        "epa_verification": {
+          "checked_at": "2026-06-02T18:05:37.810031Z",
+          "name_lookup_epa_registration": "OR050006",
+          "name_lookup_product_name": "TOUCHDOWN HITECH ",
+          "note": "Product-name search suggests state/local registration OR050006; do not use for Texas marketplace without manual compliance review.",
+          "original_epa_registration": "100-1182",
+          "pdf_url": "https://www3.epa.gov/pesticides/chem_search/ppls/000100-01182-20150318.pdf",
+          "ppls_name_search_url": "https://ordspub.epa.gov/ords/pesticides/cswu/ProductSearch/partialprodsearch/v2/riname/Touchdown%20HiTech",
+          "ppls_registration_url": "https://ordspub.epa.gov/ords/pesticides/cswu/ppls/100-1182",
+          "product_status": "Inactive",
+          "registration_lookup_product_name": "TOUCHDOWN HITECH HERBICIDE",
+          "rup": "No",
+          "status": "needs_manual_review"
+        },
+        "manufacturer": "Syngenta",
+        "original_epa_registration": "100-1182"
+      }
+    ]
+  }
+}

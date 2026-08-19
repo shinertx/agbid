@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgBid Supplier Onboarding</title>
+  <style>
+    :root {
+      --green: #16a34a;
+      --green-dark: #14532d;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --bg: #f8fafc;
+      --white: #fff;
+      --amber-bg: #fffbeb;
+      --amber: #b45309;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 16px;
+    }
+    main {
+      max-width: 680px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: var(--white);
+      padding: 22px;
+    }
+    header {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 16px;
+      margin-bottom: 22px;
+    }
+    .brand {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--green-dark);
+      margin-bottom: 8px;
+    }
+    h1 {
+      font-size: 26px;
+      line-height: 1.15;
+      margin: 0 0 8px;
+    }
+    p {
+      color: var(--muted);
+      line-height: 1.5;
+      margin: 0 0 16px;
+    }
+    .notice {
+      padding: 13px 15px;
+      border-radius: 8px;
+      background: var(--amber-bg);
+      color: var(--amber);
+      font-size: 14px;
+      line-height: 1.45;
+      margin: 16px 0;
+      font-weight: 650;
+    }
+    label {
+      display: block;
+      margin: 14px 0 7px;
+      font-size: 14px;
+      font-weight: 750;
+    }
+    input, textarea {
+      width: 100%;
+      border: 2px solid var(--line);
+      border-radius: 8px;
+      min-height: 48px;
+      padding: 13px 14px;
+      font: inherit;
+      outline: none;
+      background: #fff;
+    }
+    textarea { resize: vertical; }
+    input:focus, textarea:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.14);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .check {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 10px;
+    }
+    .check input {
+      width: 18px;
+      height: 18px;
+      margin-top: 3px;
+    }
+    .check span {
+      color: var(--ink);
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    button {
+      width: 100%;
+      margin-top: 20px;
+      border: 0;
+      border-radius: 8px;
+      padding: 16px;
+      background: var(--green);
+      color: white;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid #bbf7d0;
+      background: #f0fdf4;
+      color: #14532d;
+      font-size: 14px;
+      line-height: 1.45;
+      white-space: pre-wrap;
+    }
+    @media (max-width: 520px) {
+      main { padding: 18px; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="brand">AgBid</div>
+    <h1>Supplier pilot onboarding</h1>
+    <p>Tell us where you can deliver and whether you can participate in blind, freight-included Texas bids.</p>
+  </header>
+
+  <div class="notice">
+    Texas note: restricted-use, state-limited-use pesticides, and regulated herbicides require Texas dealer-license review before live transactions. This form does not approve you for those transactions; it routes you for manual review.
+  </div>
+
+  <form id="supplier-form">
+    <label>Business name</label>
+    <input id="name" required placeholder="Supplier or branch name">
+
+    <label>Contact</label>
+    <input id="contact" required placeholder="Name, phone, email">
+
+    <div class="grid">
+      <div>
+        <label>Service ZIP prefixes</label>
+        <input id="service-zips" required placeholder="794, 793, 765">
+      </div>
+      <div>
+        <label>Texas regions</label>
+        <input id="regions" placeholder="High Plains, Central Texas">
+      </div>
+    </div>
+
+    <label>Product lines</label>
+    <textarea id="product-lines" rows="3" placeholder="Glyphosate, glufosinate, dicamba, adjuvants"></textarea>
+
+    <div class="check">
+      <input id="freight" type="checkbox">
+      <span>I can submit one delivered bid that includes freight.</span>
+    </div>
+    <div class="check">
+      <input id="clearing" type="checkbox">
+      <span>I will let AgBid act as the clearing party for the pilot transaction.</span>
+    </div>
+    <div class="check">
+      <input id="restricted" type="checkbox">
+      <span>I may bid restricted-use, state-limited-use pesticides, or regulated herbicides.</span>
+    </div>
+    <div class="check">
+      <input id="verified-dealer" type="checkbox">
+      <span>My Texas pesticide dealer status is current or ready for manual verification.</span>
+    </div>
+
+    <div class="grid">
+      <div>
+        <label>Texas dealer license number</label>
+        <input id="dealer-license" placeholder="If applicable">
+      </div>
+      <div>
+        <label>License expiration</label>
+        <input id="dealer-expiration" type="date">
+      </div>
+    </div>
+
+    <label>Texas location or resident agent</label>
+    <input id="agent" placeholder="Texas branch location or resident agent">
+
+    <div class="check">
+      <input id="records" type="checkbox">
+      <span>I understand distribution records for restricted/state-limited products must be retained for two years.</span>
+    </div>
+
+    <button type="submit">Submit supplier profile</button>
+  </form>
+
+  <div id="result" class="result" style="display:none"></div>
+</main>
+
+<script>
+  const API_BASE = `${location.protocol}//${location.host}`;
+
+  function splitList(value) {
+    return value.split(',').map((item) => item.trim()).filter(Boolean);
+  }
+
+  document.getElementById('supplier-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const payload = {
+      name: document.getElementById('name').value,
+      contact: document.getElementById('contact').value,
+      service_zips: splitList(document.getElementById('service-zips').value),
+      texas_regions: splitList(document.getElementById('regions').value),
+      product_lines: splitList(document.getElementById('product-lines').value),
+      can_include_freight_in_bid: document.getElementById('freight').checked,
+      accepts_agbid_as_clearing_party: document.getElementById('clearing').checked,
+      can_sell_restricted_state_limited_or_regulated_herbicides: document.getElementById('restricted').checked,
+      verified_texas_dealer: document.getElementById('verified-dealer').checked,
+      texas_dealer_license_number: document.getElementById('dealer-license').value || null,
+      dealer_license_expires_on: document.getElementById('dealer-expiration').value || null,
+      texas_location_or_resident_agent: document.getElementById('agent').value || null,
+      records_retention_acknowledged: document.getElementById('records').checked,
+    };
+
+    const result = document.getElementById('result');
+    try {
+      const res = await fetch(`${API_BASE}/api/suppliers/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error(await res.text());
+      const data = await res.json();
+      result.style.display = 'block';
+      result.textContent = `Saved supplier ${data.supplier.name}\nReadiness: ${data.readiness.status}\nLead status: ${data.pilot_lead.status}\nMissing: ${(data.readiness.missing || []).join(', ') || 'none'}`;
+    } catch (error) {
+      result.style.display = 'block';
+      result.textContent = `Could not save supplier. ${error.message}`;
+    }
+  });
+</script>
+</body>
+</html>

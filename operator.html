@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:,">
+  <title>AgBid Pilot Board</title>
+  <style>
+    :root {
+      --green: #16a34a;
+      --green-dark: #14532d;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --bg: #f8fafc;
+      --white: #fff;
+      --amber-bg: #fffbeb;
+      --amber: #b45309;
+      --red-bg: #fef2f2;
+      --red: #991b1b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 16px;
+    }
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+    h1 {
+      margin: 0 0 6px;
+      font-size: 30px;
+      color: var(--green-dark);
+    }
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    a {
+      color: var(--green-dark);
+      font-weight: 750;
+      text-decoration: none;
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      min-height: 44px;
+      padding: 11px 14px;
+      background: #e2e8f0;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+    .btn.primary {
+      background: var(--green);
+      color: white;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    }
+    .card.priority {
+      border-color: #bbf7d0;
+      background: #f7fef9;
+    }
+    .metric {
+      font-size: 28px;
+      font-weight: 850;
+      margin-bottom: 4px;
+    }
+    .metric.word {
+      font-size: 20px;
+      line-height: 1.15;
+      overflow-wrap: anywhere;
+    }
+    .label {
+      color: var(--muted);
+      font-size: 14px;
+    }
+    section {
+      margin-bottom: 18px;
+    }
+    h2 {
+      font-size: 18px;
+      margin: 0 0 12px;
+    }
+    .list {
+      display: grid;
+      gap: 10px;
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      border-top: 1px solid #f1f5f9;
+      padding-top: 10px;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+    .row:first-child {
+      border-top: 0;
+      padding-top: 0;
+      margin-top: 0;
+    }
+    .row span {
+      color: var(--muted);
+    }
+    .row strong {
+      text-align: right;
+      overflow-wrap: anywhere;
+      max-width: 68%;
+      line-height: 1.35;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 5px 9px;
+      font-size: 12px;
+      font-weight: 800;
+      background: #f0fdf4;
+      color: #15803d;
+    }
+    .pill.warn {
+      background: var(--amber-bg);
+      color: var(--amber);
+    }
+    .pill.bad {
+      background: var(--red-bg);
+      color: var(--red);
+    }
+    .gate-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .gate-tile {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      background: #fcfcfd;
+    }
+    .gate-tile strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+    .gate-tile p {
+      font-size: 13px;
+      line-height: 1.35;
+    }
+    ul {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    @media (max-width: 760px) {
+      main { padding: 16px; }
+      header { display: block; }
+      .actions { justify-content: flex-start; margin-top: 14px; }
+      .grid { grid-template-columns: 1fr; }
+      .gate-grid { grid-template-columns: 1fr; }
+      .row { display: block; }
+      .row strong {
+        display: block;
+        max-width: none;
+        margin-top: 4px;
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div>
+      <h1>AgBid Pilot Board</h1>
+      <p>Operator view for Texas pilot recruiting, label confidence, supplier readiness, and live request status.</p>
+    </div>
+    <div class="actions">
+      <a class="btn primary" href="/index.html">Grower flow</a>
+      <a class="btn" href="/pilot_leads.html">Pilot leads</a>
+      <a class="btn" href="/deal_desk.html">Deal desk</a>
+      <a class="btn" href="/supplier_onboarding.html">Supplier onboarding</a>
+      <a class="btn" href="/label_review.html">Label review</a>
+      <a class="btn" href="/api/labels/verification-report">Label report</a>
+    </div>
+  </header>
+
+  <div class="grid">
+    <div class="card">
+      <div class="metric" id="request-count">0</div>
+      <div class="label">Requests</div>
+    </div>
+    <div class="card">
+      <div class="metric" id="supplier-count">0</div>
+      <div class="label">Suppliers</div>
+    </div>
+    <div class="card">
+      <div class="metric" id="ready-count">0</div>
+      <div class="label">Pilot-ready suppliers</div>
+    </div>
+    <div class="card">
+      <div class="metric" id="label-review-count">0</div>
+      <div class="label">Label review queue</div>
+    </div>
+    <div class="card">
+      <div class="metric" id="grower-lead-count">0</div>
+      <div class="label">Grower leads</div>
+    </div>
+    <div class="card">
+      <div class="metric" id="supplier-lead-count">0</div>
+      <div class="label">Supplier leads</div>
+    </div>
+    <div class="card">
+      <div class="metric" id="deal-review-count">0</div>
+      <div class="label">Deal reviews</div>
+    </div>
+    <div class="card">
+      <div class="metric word" id="foundry-verdict">demo_mode</div>
+      <div class="label">Foundry verdict</div>
+    </div>
+  </div>
+
+  <section class="card priority">
+    <h2>Startup Foundry Gate</h2>
+    <div id="foundry-gate" class="list"></div>
+  </section>
+
+  <section class="card priority">
+    <h2>Next Actions</h2>
+    <ul id="next-actions"></ul>
+  </section>
+
+  <section class="card">
+    <h2>Label Confidence</h2>
+    <div id="label-counts" class="list"></div>
+  </section>
+
+  <section class="card">
+    <h2>Official EPA Product Coverage</h2>
+    <div id="ppis-coverage" class="list"></div>
+  </section>
+
+  <section class="card">
+    <h2>Open Requests</h2>
+    <div id="requests" class="list"></div>
+  </section>
+
+  <section class="card">
+    <h2>Pilot Lead Gate</h2>
+    <div id="lead-gate" class="list"></div>
+  </section>
+
+  <section class="card">
+    <h2>Deal Review Gate</h2>
+    <div id="deal-gate" class="list"></div>
+  </section>
+
+  <section class="card">
+    <h2>Supplier Readiness</h2>
+    <div id="suppliers" class="list"></div>
+  </section>
+
+  <section class="card">
+    <h2>Texas Gates</h2>
+    <div id="gates" class="list"></div>
+  </section>
+
+</main>
+
+<script>
+  const API_BASE = `${location.protocol}//${location.host}`;
+
+  function statusText(status) {
+    return String(status || '').replaceAll('_', ' ');
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? '')
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
+  }
+
+  function pill(status) {
+    const lower = String(status || '').toLowerCase();
+    const cls = lower.includes('ready') || lower === 'verified' ? '' : lower.includes('review') || lower.includes('needed') ? 'warn' : 'bad';
+    return `<span class="pill ${cls}">${escapeHtml(statusText(status))}</span>`;
+  }
+
+  function row(label, value) {
+    return `<div class="row"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value ?? 'missing')}</strong></div>`;
+  }
+
+  async function loadBoard() {
+    const res = await fetch(`${API_BASE}/api/operator/pilot-board`);
+    const data = await res.json();
+
+    document.getElementById('request-count').textContent = data.requests.length;
+    document.getElementById('supplier-count').textContent = data.supplier_count;
+    document.getElementById('ready-count').textContent = data.ready_supplier_count;
+    document.getElementById('label-review-count').textContent = data.label_review_candidate_count || 0;
+    document.getElementById('grower-lead-count').textContent = data.lead_summary?.by_type?.grower || 0;
+    document.getElementById('supplier-lead-count').textContent = data.lead_summary?.by_type?.supplier || 0;
+    document.getElementById('deal-review-count').textContent = data.deal_review_summary?.total || 0;
+    document.getElementById('foundry-verdict').textContent = statusText(data.foundry_gate?.verdict || 'missing');
+
+    const foundry = data.foundry_gate || {};
+    document.getElementById('foundry-gate').innerHTML = `
+      ${row('Codename', foundry.codename || 'AgBid Clearing Wedge')}
+      ${row('Score', `${foundry.score || 0}/10`)}
+      <div class="row"><span>Verdict</span><strong>${pill(foundry.verdict || 'missing')}</strong></div>
+      ${row('Evidence rule', foundry.evidence_standard || 'Field proof required.')}
+      ${row('Blockers', (foundry.blockers || []).join(', ') || 'none')}
+      <div class="gate-grid">
+        ${(foundry.gates || []).map((gate) => `
+          <div class="gate-tile">
+            <strong>${escapeHtml(gate.gate)}</strong>
+            ${pill(gate.status)}
+            <p>${escapeHtml(gate.mechanism)}</p>
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    document.getElementById('label-counts').innerHTML = Object.entries(data.verification_counts)
+      .map(([key, value]) => row(key, value))
+      .join('');
+
+    const ppis = data.ppis_launch_wedge && data.ppis_launch_wedge.summary;
+    document.getElementById('ppis-coverage').innerHTML = ppis ? `
+      ${row('Launch wedge products', ppis.matching_product_count.toLocaleString())}
+      ${row('Active products', ppis.active_product_count.toLocaleString())}
+      ${row('Restricted-use flags', ppis.restricted_use_product_count.toLocaleString())}
+      ${row('Active ingredient groups', ppis.target_active_ingredient_groups.toLocaleString())}
+      <div class="row"><span>Active by group</span><strong>${escapeHtml(Object.entries(ppis.active_counts_by_group || {}).map(([key, value]) => `${key}: ${value}`).join(' · '))}</strong></div>
+    ` : '<p>Run scripts/build_ppis_index.py to build official EPA PPIS coverage.</p>';
+
+    document.getElementById('requests').innerHTML = data.requests.length ? data.requests.map((request) => `
+      <div>
+        <strong>${escapeHtml(request.grower_name)}</strong> ${pill(request.status)}
+        ${row('Need', `${request.gallons.toLocaleString()} gal ${request.active_ingredient}`)}
+        ${row('Delivery', `${request.farm_county} County / ${request.delivery_zip}`)}
+        ${row('Product', `${request.matched_product.brand_name} (${request.matched_product.epa_registration})`)}
+        ${row('Label gate', request.label_gate ? `${request.label_gate.status}: ${request.label_gate.action}` : 'missing')}
+        ${row('Bids', `${request.bid_status.bid_count} / must pick: ${request.bid_status.must_pick ? 'yes' : 'no'}`)}
+        ${(request.invites || []).map((invite) => `
+          <div class="row">
+            <span>${escapeHtml(invite.supplier_name)} — ${invite.submitted ? 'submitted' : 'pending'}</span>
+            <strong>
+              <a href="${escapeHtml(invite.bid_url)}" target="_blank" rel="noopener">Open bid link</a>
+              ${invite.bid ? `<br>${escapeHtml(`Bid: $${Number(invite.bid.delivered_total).toLocaleString(undefined, { minimumFractionDigits: 2 })} delivered ($${Number(invite.bid.delivered_price_per_gallon).toFixed(2)}/gal), delivers ${invite.bid.delivery_date}`)}` : ''}
+            </strong>
+          </div>
+        `).join('')}
+      </div>
+    `).join('') : '<p>No requests yet.</p>';
+
+    const leadSummary = data.lead_summary || {};
+    const gate = leadSummary.pilot_gate || {};
+    document.getElementById('lead-gate').innerHTML = `
+      ${row('Real grower leads', leadSummary.real_grower_leads || 0)}
+      ${row('Supplier leads with freight + AgBid clearing', leadSummary.real_supplier_leads || 0)}
+      ${row('Manual auction ready', gate.ready_for_live_manual_auction ? 'yes' : 'no')}
+      ${row('Latest leads', (data.recent_leads || []).map((lead) => `${lead.name}: ${lead.next_action}`).join(' · ') || 'none')}
+    `;
+
+    const dealSummary = data.deal_review_summary || {};
+    document.getElementById('deal-gate').innerHTML = `
+      ${row('Blocked reviews', dealSummary.blocked || 0)}
+      ${row('Ready for manual clearing', dealSummary.ready_for_manual_clearing || 0)}
+      ${row('Latest deals', (data.recent_deal_reviews || []).map((deal) => `${deal.supplier_name}: ${deal.status}`).join(' · ') || 'none')}
+    `;
+
+    document.getElementById('suppliers').innerHTML = data.suppliers.map((supplier) => `
+      <div>
+        <strong>${escapeHtml(supplier.name)}</strong> ${pill(supplier.readiness.status)}
+        ${row('Contact', supplier.contact || 'missing')}
+        ${row('Service ZIPs', (supplier.service_zips || []).join(', ') || 'missing')}
+        ${row('Freight bid', supplier.can_include_freight_in_bid ? 'yes' : 'no')}
+        ${row('AgBid clearing', supplier.accepts_agbid_as_clearing_party ? 'yes' : 'no')}
+        ${row('Texas dealer', supplier.verified_texas_dealer ? 'verified/pending proof' : 'not verified')}
+        ${row('Missing', (supplier.readiness.missing || []).join(', ') || 'none')}
+      </div>
+    `).join('');
+
+    document.getElementById('gates').innerHTML = data.texas_compliance_gates.map((gate) => `
+      <div>
+        <strong>${escapeHtml(gate.gate)}</strong>
+        <p>${escapeHtml(gate.rule)}</p>
+        ${row('App check', gate.app_check)}
+      </div>
+    `).join('');
+
+    const foundryActions = (foundry.next_actions || []).map((action) => `[Foundry] ${action}`);
+    document.getElementById('next-actions').innerHTML = [...foundryActions, ...data.next_actions].map((action) => `<li>${escapeHtml(action)}</li>`).join('');
+  }
+
+  loadBoard().catch((error) => {
+    document.body.innerHTML = `<main><h1>Could not load pilot board</h1><p>${escapeHtml(error.message)}</p></main>`;
+  });
+  setInterval(loadBoard, 10000);
+</script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.cache/
+.gstack/
+.playwright-cli/
+.playwright-mcp/
+agbid_market_state.json
+agbid_market_state.json.tmp
+agbid_api_backend 2.py

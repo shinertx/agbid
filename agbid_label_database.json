@@ -1,0 +1,135 @@
+{
+  "Glyphosate": {
+    "active_ingredient": "Glyphosate",
+    "common_uses": [
+      "Non-selective post-emergence weed control"
+    ],
+    "generic_alternatives": [
+      {
+        "brand_name": "Roundup PowerMAX 3",
+        "manufacturer": "Bayer CropScience",
+        "epa_registration": "524-633",
+        "active_percentage": 43.3,
+        "default_adjuvant": "Non-ionic Surfactant (NIS) or Ammonium Sulfate (AMS)"
+      },
+      {
+        "brand_name": "Durango DMA",
+        "manufacturer": "Corteva Agriscience",
+        "epa_registration": "62719-556",
+        "active_percentage": 50.2,
+        "default_adjuvant": "Ammonium Sulfate (AMS)"
+      },
+      {
+        "brand_name": "Touchdown HiTech",
+        "manufacturer": "Syngenta",
+        "epa_registration": "100-1182",
+        "active_percentage": 50.0,
+        "default_adjuvant": "Non-ionic Surfactant (NIS)"
+      }
+    ]
+  },
+  "Glufosinate-ammonium": {
+    "active_ingredient": "Glufosinate-ammonium",
+    "common_uses": [
+      "Post-emergence weed control in glufosinate-tolerant crops"
+    ],
+    "generic_alternatives": [
+      {
+        "brand_name": "Liberty 280 SL",
+        "manufacturer": "BASF",
+        "epa_registration": "7969-448",
+        "active_percentage": 24.5,
+        "default_adjuvant": "Ammonium Sulfate (AMS)"
+      },
+      {
+        "brand_name": "Interline",
+        "manufacturer": "UPL NA",
+        "epa_registration": "70506-310",
+        "active_percentage": 24.5,
+        "default_adjuvant": "Ammonium Sulfate (AMS)"
+      }
+    ]
+  },
+  "2,4-D choline salt": {
+    "active_ingredient": "2,4-D choline salt",
+    "common_uses": [
+      "Broadleaf weed control in Enlist crops"
+    ],
+    "generic_alternatives": [
+      {
+        "brand_name": "Enlist One",
+        "manufacturer": "Corteva Agriscience",
+        "epa_registration": "62719-695",
+        "active_percentage": 55.7,
+        "default_adjuvant": "Non-ionic Surfactant (NIS) or Crop Oil Concentrate (COC)"
+      }
+    ]
+  },
+  "2,4-D dimethylamine salt": {
+    "active_ingredient": "2,4-D dimethylamine salt",
+    "common_uses": [
+      "Generic 2,4-D broadleaf weed control"
+    ],
+    "generic_alternatives": [
+      {
+        "brand_name": "Weedar 64",
+        "manufacturer": "Nufarm",
+        "epa_registration": "71368-1",
+        "active_percentage": 46.8,
+        "default_adjuvant": "Non-ionic Surfactant (NIS)"
+      }
+    ]
+  },
+  "Dicamba diglycolamine salt": {
+    "active_ingredient": "Dicamba diglycolamine salt",
+    "common_uses": [
+      "Post-emergence broadleaf control in dicamba-tolerant soybeans"
+    ],
+    "generic_alternatives": [
+      {
+        "brand_name": "XtendiMax with VaporGrip Technology",
+        "manufacturer": "Bayer CropScience",
+        "epa_registration": "524-617",
+        "active_percentage": 42.8,
+        "default_adjuvant": "VaporGrip Agent (Volatility Reduction Agent)"
+      }
+    ]
+  },
+  "Dicamba BAPMA salt": {
+    "active_ingredient": "Dicamba BAPMA salt",
+    "common_uses": [
+      "Post-emergence broadleaf control in Engenia-tolerant crops"
+    ],
+    "generic_alternatives": [
+      {
+        "brand_name": "Engenia",
+        "manufacturer": "BASF",
+        "epa_registration": "7969-345",
+        "active_percentage": 48.2,
+        "default_adjuvant": "Sentri Silicone Surfactant (NIS)"
+      }
+    ]
+  },
+  "Clethodim": {
+    "active_ingredient": "Clethodim",
+    "common_uses": [
+      "Post-emergence grass weed control"
+    ],
+    "generic_alternatives": [
+      {
+        "brand_name": "Select Max",
+        "manufacturer": "Valent USA",
+        "epa_registration": "59639-132",
+        "active_percentage": 12.6,
+        "default_adjuvant": "Non-ionic Surfactant (NIS) or Crop Oil Concentrate (COC)"
+      },
+      {
+        "brand_name": "Volunteer",
+        "manufacturer": "Albaugh",
+        "epa_registration": "42750-72",
+        "active_percentage": 26.4,
+        "default_adjuvant": "Crop Oil Concentrate (COC)"
+      }
+    ]
+  }
+}

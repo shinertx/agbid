@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgBid Label Review</title>
+  <style>
+    :root {
+      --green: #16a34a;
+      --green-dark: #14532d;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --bg: #f8fafc;
+      --white: #fff;
+      --amber-bg: #fffbeb;
+      --amber: #b45309;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 16px;
+    }
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      margin: 0 0 6px;
+      color: var(--green-dark);
+      font-size: 30px;
+    }
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    a {
+      color: var(--green-dark);
+      font-weight: 750;
+      text-decoration: none;
+    }
+    .card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .search {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    input, select {
+      border: 2px solid var(--line);
+      border-radius: 8px;
+      min-height: 44px;
+      padding: 12px 13px;
+      font: inherit;
+      outline: none;
+      background: white;
+    }
+    input:focus, select:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.14);
+    }
+    button {
+      border: 0;
+      border-radius: 8px;
+      min-height: 44px;
+      padding: 12px 14px;
+      background: var(--green);
+      color: white;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .candidate {
+      border-top: 1px solid #f1f5f9;
+      padding-top: 12px;
+      margin-top: 12px;
+    }
+    .candidate:first-child {
+      border-top: 0;
+      padding-top: 0;
+      margin-top: 0;
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 14px;
+      padding: 6px 0;
+    }
+    .row span { color: var(--muted); }
+    .row strong { text-align: right; }
+    .row strong {
+      max-width: 68%;
+      overflow-wrap: anywhere;
+      line-height: 1.35;
+    }
+    .pill {
+      display: inline-flex;
+      border-radius: 999px;
+      padding: 5px 9px;
+      font-size: 12px;
+      font-weight: 800;
+      background: var(--amber-bg);
+      color: var(--amber);
+    }
+    .links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+    @media (max-width: 720px) {
+      main { padding: 16px; }
+      header { display: block; }
+      .search { grid-template-columns: 1fr; }
+      .row { display: block; }
+      .row strong {
+        display: block;
+        max-width: none;
+        margin-top: 4px;
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div>
+      <h1>Label Review</h1>
+      <p>Search EPA PPLS live when a grower asks for a product outside the seed database.</p>
+    </div>
+    <a href="/operator.html">Pilot board</a>
+  </header>
+
+  <section class="card">
+    <strong>EPA live search</strong>
+    <p>Use this for discovery. A live match still needs operator label and Texas compliance review before a transaction.</p>
+    <div class="search">
+      <input id="query" placeholder="Roundup PowerMAX 3, Liberty, clethodim">
+      <select id="mode">
+        <option value="product">Product name</option>
+        <option value="ingredient">Ingredient</option>
+      </select>
+      <button onclick="searchLabels()">Search</button>
+    </div>
+  </section>
+
+  <section class="card">
+    <strong>Create review candidate</strong>
+    <p>Save a product request for manual label review and future database expansion.</p>
+    <div class="search">
+      <input id="candidate-query" placeholder="Product requested by grower">
+      <input id="ingredient-hint" placeholder="Ingredient hint, optional">
+      <button onclick="saveCandidate()">Save</button>
+    </div>
+  </section>
+
+  <section class="card">
+    <strong>Results</strong>
+    <div id="results"><p>No search yet.</p></div>
+  </section>
+
+  <section class="card">
+    <strong>Saved Review Candidates</strong>
+    <div id="saved"><p>Loading...</p></div>
+  </section>
+</main>
+
+<script>
+  const API_BASE = `${location.protocol}//${location.host}`;
+
+  function row(label, value) {
+    return `<div class="row"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value || 'missing')}</strong></div>`;
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? '')
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
+  }
+
+  async function responseErrorMessage(res) {
+    const text = await res.text();
+    try {
+      return JSON.parse(text).detail || text;
+    } catch {
+      return text;
+    }
+  }
+
+  function safeUrl(value) {
+    try {
+      const url = new URL(value);
+      return ['http:', 'https:'].includes(url.protocol) ? escapeHtml(url.href) : '';
+    } catch {
+      return '';
+    }
+  }
+
+  function renderCandidate(candidate) {
+    const ingredients = (candidate.active_ingredients || [])
+      .map((item) => `${item.active_ing} (${item.active_ing_percent}%)`)
+      .join(', ');
+    const pplsUrl = safeUrl(candidate.ppls_registration_url);
+    const pdfUrl = safeUrl(candidate.label_pdf_url);
+    return `
+      <div class="candidate">
+        <strong>${escapeHtml(candidate.product_name || candidate.registration_lookup_product_name || 'Unnamed product')}</strong>
+        <span class="pill">${escapeHtml(candidate.label_gate ? candidate.label_gate.status : 'review')}</span>
+        ${row('EPA registration', candidate.epa_registration)}
+        ${row('Status', candidate.product_status)}
+        ${row('Restricted use', candidate.rup || 'unknown')}
+        ${row('Ingredients', ingredients || 'not loaded')}
+        <div class="links">
+          ${pplsUrl ? `<a href="${pplsUrl}" target="_blank" rel="noopener noreferrer">EPA PPLS</a>` : ''}
+          ${pdfUrl ? `<a href="${pdfUrl}" target="_blank" rel="noopener noreferrer">Label PDF</a>` : ''}
+        </div>
+      </div>
+    `;
+  }
+
+  async function searchLabels() {
+    const query = document.getElementById('query').value.trim();
+    const mode = document.getElementById('mode').value;
+    if (!query) return;
+    const results = document.getElementById('results');
+    results.innerHTML = '<p>Searching EPA...</p>';
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 12000);
+    try {
+      const res = await fetch(`${API_BASE}/api/labels/live-search?q=${encodeURIComponent(query)}&mode=${mode}`, {
+        signal: controller.signal,
+      });
+      if (!res.ok) throw new Error(await responseErrorMessage(res));
+      const data = await res.json();
+      results.innerHTML = data.candidates.length
+        ? data.candidates.map(renderCandidate).join('')
+        : '<p>No EPA candidates found.</p>';
+    } catch (error) {
+      const message = error.name === 'AbortError'
+        ? 'EPA search is taking too long. Save this as a review candidate and try again later.'
+        : error.message;
+      results.innerHTML = `<p>${escapeHtml(message)}</p>`;
+    } finally {
+      window.clearTimeout(timeout);
+    }
+  }
+
+  async function saveCandidate() {
+    const productQuery = document.getElementById('candidate-query').value.trim();
+    if (!productQuery) return;
+    const payload = {
+      product_query: productQuery,
+      active_ingredient_hint: document.getElementById('ingredient-hint').value || null,
+      requested_by: 'operator',
+      notes: 'Created from label review page',
+    };
+    const res = await fetch(`${API_BASE}/api/labels/review-candidates`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      document.getElementById('saved').innerHTML = `<p>${escapeHtml(await res.text())}</p>`;
+      return;
+    }
+    await loadSaved();
+  }
+
+  async function loadSaved() {
+    const res = await fetch(`${API_BASE}/api/labels/review-candidates`);
+    const data = await res.json();
+    document.getElementById('saved').innerHTML = data.candidates.length
+      ? data.candidates.map((item) => `
+        <div class="candidate">
+          <strong>${escapeHtml(item.product_query)}</strong>
+          ${row('Status', item.status)}
+          ${row('Requested by', item.requested_by)}
+          ${row('EPA lookup', item.live_lookup ? item.live_lookup.status : 'missing')}
+          ${row('Candidates found', item.live_lookup && item.live_lookup.candidates ? item.live_lookup.candidates.length : 0)}
+        </div>
+      `).join('')
+      : '<p>No saved candidates yet.</p>';
+  }
+
+  loadSaved();
+</script>
+</body>
+</html>
