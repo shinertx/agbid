@@ -2,9 +2,12 @@
 
 ## Open Business Proof TODOs
 
-- [ ] Get Nathan's real request: product or brand, gallons, delivery ZIP, need-by date, hidden delivered target price, and payment path.
-- [ ] Get Nathan's must-pick answer: if a supplier beats the hidden delivered target, will he pick through AgBid?
-- [ ] Recruit three Texas-capable suppliers for the first request.
+Roles updated 2026-08-20: Nathan Burson is cofounder, supply-side (works at Wilbur-Ellis). He is supplier #1 candidate, not the pilot grower. The grower slot is open.
+
+- [ ] Nathan completes supplier onboarding (freight-included, EPA numbers, Texas regions, AgBid clearing acceptance).
+- [ ] Find the pilot grower (was Nathan's slot): one Texas row-crop operator with a real buy — product or brand, gallons, delivery ZIP, need-by date, hidden delivered target price, payment path.
+- [ ] Get that grower's must-pick answer: if a supplier beats the hidden delivered target, will they pick through AgBid?
+- [ ] Recruit two more Texas-capable suppliers beyond Nathan (his bid proves mechanics; arms-length bids prove the market).
 - [ ] For each supplier, confirm freight-included bid, EPA registration number, delivery date, and AgBid clearing acceptance.
 - [ ] Run the first real blind bid cycle.
 - [ ] Complete manual label, Texas compliance, freight, payment, supplier invoice, clearing terms, and delivery-proof review before money moves.

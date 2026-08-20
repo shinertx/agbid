@@ -26,11 +26,9 @@ Do not send farmers the operator board, supplier onboarding, supplier bid link, 
 
 ## Farmer Ask
 
-Send this:
+Nathan Burson moved to the supply side (cofounder, Wilbur-Ellis) on 2026-08-20, so the pilot grower slot is open. Send this to the first real grower candidate:
 
 ```text
-Nathan, ignore the earlier pile of links.
-
 For the AgBid test, I only need one real buying request:
 
 1. Product or brand
